@@ -1,2 +1,8 @@
-hello user ,
- you just logged in to our books portal and all bla bla bla bla :P
+Greeting, 
+
+You just signed up for an account at {{ site.name }}. please click on the link below to activate :
+http://{{ site.domain}}{% url  'registration_activate' activation_key %}
+
+this link is valid for {{ expiration_days}}.
+
+The mystery books team.

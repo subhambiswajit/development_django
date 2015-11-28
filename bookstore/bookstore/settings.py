@@ -90,3 +90,15 @@ STATIC_URL = '/static/'
 # registration
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
+LOGIN_REDIRECT_URL = '/store/'
+
+# email stuff
+EMPLATED_EMAIL_BACKEND = 'templated_email.backends.vanilla_django.TemplateBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.mandrillapp.com'
+EMAIL_HOST_USER = 'digu35@gmail.com'
+EMAIL_HOST_PASSWORD = 'UIfzBCmedHs74_9RmqCQYg'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = "books@mymysterybook.com"

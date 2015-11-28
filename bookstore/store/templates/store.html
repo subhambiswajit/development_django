@@ -5,7 +5,26 @@
     </head>
 
     <body>
-    	<p> there are {{store }} books in the stock </p>
+    	<form method='post' action='.'>
+    		
+    	{% csrf_token %}
+    	{% if request.user.is_authenticated %}
+    	   hello {% if request.user.first_name %}
+    	          {{ request.user.firstname }}
+    	          {% else %}
+    	          {{request.user.username}}
+    	          {% endif %}
+	          <a href="{% url 'auth_logout' %}" >Log Out </a>
+        {% else %}
+
+    	please login <a href="{% url 'auth_login' %}" >Log in</a>
+    	hello {% if request.user.first_name %}
+    	          {{ request.user.firstname }}
+    	          {% else %}
+    	          {{request.user.username}}
+    	          {% endif %}
+    	{% endif %}
+    </form>
 	</body>
  </html>
  
