@@ -8,5 +8,7 @@ def index(request):
 def store(request):
 	m = Book.objects.all().count()
 	print 'helloworld'
-	
-	return render(request,'store.html',{'store' : m})
+	# if request.user.is_authenticated():
+	# 	message = 'user is authenticated'
+
+	return render(request,'store.html',{'store' : m })

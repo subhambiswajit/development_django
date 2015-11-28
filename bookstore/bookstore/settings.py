@@ -36,9 +36,34 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
     'registration',
     'store',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages'
+)
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+           'context_processors':[
+            'social.apps.django_app.context_processors.backends',
+            'social.apps.django_app.context_processors.login_redirect',
+           ],
+        },
+    },
+]
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,7 +79,10 @@ ROOT_URLCONF = 'bookstore.urls'
 
 WSGI_APPLICATION = 'bookstore.wsgi.application'
 
-
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+    )
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
@@ -102,3 +130,7 @@ EMAIL_HOST_USER = 'digu35@gmail.com'
 EMAIL_HOST_PASSWORD = 'UIfzBCmedHs74_9RmqCQYg'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = "books@mymysterybook.com"
+
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1643389372583303'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'e0ace7037fca89881b3f491796365b34'
