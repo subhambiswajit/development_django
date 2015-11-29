@@ -11,7 +11,7 @@
         {{message}}
     	{% if request.user.is_authenticated %}
     	   hello {% if request.user.first_name %}
-    	          {{ request.user.firstname }}
+    	          {{ facebook_name }}
     	          {% else %}
     	          {{request.user.username}}
     	          {% endif %}

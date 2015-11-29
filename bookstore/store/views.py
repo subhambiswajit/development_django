@@ -7,8 +7,9 @@ def index(request):
 
 def store(request):
 	m = Book.objects.all().count()
-	print 'helloworld'
-	# if request.user.is_authenticated():
+	
+	if request.user.is_authenticated():
+		fb_name= request.user.first_name
 	# 	message = 'user is authenticated'
 
-	return render(request,'store.html',{'store' : m })
+	return render(request,'store.html',{'store' : m ,'facebook_name': fb_name})
