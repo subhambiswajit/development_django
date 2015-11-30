@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if not request.user.is_authenticated %}
 <form method='post' action='.'>
 	{% csrf_token %}
 	{{ form.as_p}}
@@ -9,5 +10,6 @@
 	<input type="hidden" name="next" value="{{next}}"/>
  </form>
  <a href= "{% url 'social:begin' 'facebook' %}"> login with facebook </a>
-
+{% else %}
+{% endif %}
  {% endblock %}
