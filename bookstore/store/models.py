@@ -17,6 +17,9 @@ class Book (models.Model):
 	price = models.DecimalField(decimal_places=2 , max_digits=8)
 	stock = models.IntegerField(default=0)
 
+	def __unicode__(self):
+		return "%s" %(self.title)
+
 class Review(models.Model):
 	book = models.ForeignKey(Book)
 	user = models.ForeignKey(User)

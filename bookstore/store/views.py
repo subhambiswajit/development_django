@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .models import Book
+from .models import Book, Review
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -8,6 +9,7 @@ def index(request):
 def store(request):
 	fb_name = ''
 	head = ''
+
 	m = Book.objects.all().count()
 	book = Book.objects.all()
 	
@@ -17,3 +19,21 @@ def store(request):
 	# 	message = 'user is authenticated'
 
 	return render(request,'base.html',{'store' : m ,'facebook_name': fb_name , 'head': head , 'book':book})
+@login_required
+def book_details(request,detail_id):
+	
+	m =''
+	n=''
+	no_review = False
+	try:
+		
+		 	m= Review.objects.filter(book_id= detail_id)
+	 	
+	except Review.DoesNotExist:
+	 	pass
+	book = Book.objects.get(id = detail_id)
+	print">>>>>>>>>>"
+	print no_review
+	return render(request,'store/detail.html',{'review':m, 'book':book, 'no_review': no_review})
+
+

@@ -3,5 +3,38 @@
 {% load staticfiles %}
 
 {%block body %}
-
+   <div class="row">
+   	<div class="col-md-12">
+   			<h2> {{book.title}} </h2>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<h3>Author: {{book.author}} </h3>
+	</div>
+	<div class="col-md-6">
+		<h3>Description: {{book.description}} </h3>
+	</div>
+</div>
+<div class="row">
+			<div class="col-md-4">
+				<h4 style="color:white">Publish date: {{book.publish_date}} </h4>
+			</div>
+			<div class="col-md-4">
+				<h4 style="color:white">Price: {{book.price}} </h4>
+			</div>
+			<div class="col-md-4">
+				<h4 style="color:white">Stock: {{book.stock}} </h4>
+			</div>
+	</div>
+	{% if review %}
+	{% for review in review %}
+<div class="row">
+	<div class="col-md-12" style="color:white">{{review.text}} </div>
+</div>
+	{% endfor %}
+	{% else %}
+	<div class="col-md-12" style="color:white"> No Reviews yet </div>
+{% endif %}
+	
 {% endblock %}

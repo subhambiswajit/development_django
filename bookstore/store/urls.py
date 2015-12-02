@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^index$',views.index),
     url(r'^$', views.store),
     url(r'^count$',views.store),
+    url(r'^book/details/(\d+)$',views.book_details, name="book_details")
 )
