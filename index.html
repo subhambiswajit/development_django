@@ -1,0 +1,40 @@
+{% extends 'home/bases/base.html' %}
+{% block index_head %} Home | PlanMyTour Beta {% endblock %}
+
+   {% block left_content %}  
+
+          <img src="/static/assets/images/slider/planmytour.gif" style="width:100%;">
+    {% endblock %}
+
+	{% block service_box %}
+    <div class="main">
+      <div class="container">
+        <!-- BEGIN SERVICE BOX -->
+        <div class="row service-box margin-bottom-40">
+          <div class="col-md-4 col-sm-4">
+            <div class="service-box-heading">
+              <em><i class="fa fa-location-arrow blue"></i></em>
+              <span>Send itinerary in 5 minutes</span>
+            </div>
+            <p>Customize and send package in five minutes. PlanMyTour calculates the cost and performs validation of the package instantly. PlanMyTour make sure that all the rules defined by you are met. </p>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <div class="service-box-heading">
+              <em><i class="fa fa-check red"></i></em>
+              <span>Never lose a customer</span>
+            </div>
+            <p>PlanMyTour facilitates with an intelligent dashboard with advance follow-up features through email and SMS management. For example PlanMyTour automatically reminds your employees with a "todo" list for each day. PlanMyTour sends notification of each activity to you instantly. </p>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <div class="service-box-heading">
+              <em><i class="fa fa-compress green"></i></em>
+              <span>End To End solution</span>
+            </div>
+            <p>PlanMyTour is a complete solution with a mobile app for your employees, field managers, ground staff like ticket agents and drivers. One can use mobile app to communicate among each other.</p>
+          </div>
+        </div>
+        <!-- END SERVICE BOX -->
+
+      </div>
+    </div>
+	{% endblock %}

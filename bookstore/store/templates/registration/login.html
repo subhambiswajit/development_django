@@ -5,6 +5,9 @@
 {}
 {% block modal_body %}
     {% block modal_title %}  {% endblock %}
+    {% block nav_login %}
+    	<li> <button type="submit" data-toggle="modal" class ="btn btn-default" data-target="#myModal">login</button> </li>
+    {% endblock %}
 <form method='post' action='.'>
 	{% csrf_token %}
 
