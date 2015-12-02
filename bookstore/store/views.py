@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import Book, Review
+from django.shortcuts import render, redirect
+from .models import Book, Review, Cart, BookOrder
 from django.contrib.auth.decorators import login_required
 
 
@@ -32,8 +32,49 @@ def book_details(request,detail_id):
 	except Review.DoesNotExist:
 	 	pass
 	book = Book.objects.get(id = detail_id)
-	print">>>>>>>>>>"
-	print no_review
+	
 	return render(request,'store/detail.html',{'review':m, 'book':book, 'no_review': no_review})
+
+@login_required
+def add_to_cart(request, book_id):
+	try:
+		book = Book.objects.get(id= book_id)
+	except Book.DoesNotExist:
+		pass
+	else:
+		try:
+			cart = Cart.objects.get(user= request.user , active = True)
+			
+			
+		except:
+				create_cart = Cart.objects.create(
+					user = request.user
+					)
+				create_cart.save()
+		cart.add_to_cart(book_id)		
+	return redirect('cart')
+@login_required
+def remove_from_cart (request, book_id):
+	try:
+		book = Book.objects.get(id= book_id)
+	except Book.DoesNotExist:
+		pass
+	else:
+	   	cart = Cart.objects.get(user = request.user, active= True)
+	   	cart.remove_from_cart(book_id)
+   	return redirect('cart')
+
+@login_required
+def cart(request):
+	cart = Cart.objects.get(user= request.user, active= True)
+	orders = BookOrder.objects.filter (cart = cart)
+	total = 0
+	count = 0
+	for order in orders:
+		count += order.quantity
+		total += (order.book.price * order.quantity )
+	return render (request,'store/cart.html',{'cart': orders,'total':total ,'count':count})
+
+
 
 

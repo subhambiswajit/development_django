@@ -5,10 +5,11 @@
     	  <title>{% block title %} {{ head|title}} {% endblock %}</title>
           <style type="text/css">
           body {
-          background-image:url({% static 'base/img/back.jpg' %});
+         /* background-image:url({% static 'base/img/back.jpg' %});*/
           background-repeat: no-repeat;
           background-position: center;
       }
+
           </style>
    {% load compress %}
 
@@ -81,6 +82,7 @@
        {% endblock %}
         {% else %}
         <li><a href="#"><b>Hello </b> {{request.user.username}}</a></li>
+        <li><a href="{%url 'cart' %}">My shopping cart</a> </li>
           <li ><a type="submit"  class="btn btn-default " href="{% url 'auth_logout' %}">logout </a></li>
         {% endif %}
       </form>
@@ -105,11 +107,11 @@
  <div class="row" >
   {% endif %}
   <div class="col-md-3">
-    <a target="_blank" href="{%url 'book_details' book.id %}" >
+    <a  href="{%url 'book_details' book.id %}" >
     <div class="jumbotron">
   <h3>{{book.title}}</h3>
   <span>{{book.description}}</span>
-  
+  <a href="{% url 'add_to_cart' book.id %}" class="btn btn-default">[Add to cart]</a>
 </div>
 </a>
   </div>

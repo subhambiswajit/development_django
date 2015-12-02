@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+
+{% for items in cart %}
+   <div class ="row">
+   	  <div class= "col-md-3"> Title: {{items.book.title}} </div>
+   	  <div class= "col-md-3"> Author: {{ items.book.author.first_name}}</div>
+   	  <div class = "col-md-3"> <a href="{%url 'add_to_cart' items.book.id %}" > + </a>Quantity : {{ items.quantity}}<a href="{%url 'remove_from_cart' items.book.id %}" > - </a> </div>
+
+
+   	  <div class="col-md-3">Price: {{items.book.price}} {{items.quantity}} </div>
+   	</div>
+
+{% empty %}
+   <div class= "row">
+   		<div class="col-md-12"> There are no items in your cart </div>
+   	</div>
+{% endfor %}
+<div> {{total}} </div>
+
+
+{% endblock %}
