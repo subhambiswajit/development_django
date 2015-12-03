@@ -19,6 +19,7 @@
  </form>
 
  <a href= "{% url 'social:begin' 'facebook' %}"> login with facebook </a>
+ <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
  {% endblock %}
 {% else %}
  
