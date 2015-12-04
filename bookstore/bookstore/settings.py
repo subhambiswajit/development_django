@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+GEOIP_PATH = os.path.join(BASE_DIR,'geoapp/')
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,6 +41,7 @@ INSTALLED_APPS = (
     'registration',
     'compressor',
     'store',
+    'geoip2',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -73,9 +75,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_geoip.middleware.LocationMiddleware',
 )
 
 ROOT_URLCONF = 'bookstore.urls'
+
+
 
 WSGI_APPLICATION = 'bookstore.wsgi.application'
 

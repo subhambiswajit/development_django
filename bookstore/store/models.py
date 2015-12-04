@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
 class Author(models.Model):
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
@@ -61,6 +62,8 @@ class BookOrder(models.Model):
 	book = models.ForeignKey(Book)
 	cart = models.ForeignKey(Cart)
 	quantity = models.IntegerField()
+
+
 
 
 
