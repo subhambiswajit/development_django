@@ -82,6 +82,7 @@
        {% endblock %}
         {% else %}
         <li><a href="#"><b>Hello </b> {{request.user.username}}</a></li>
+        <li> <b>Cart</b>
         <li><a href="{%url 'cart' %}">My shopping cart</a> </li>
           <li ><a type="submit"  class="btn btn-default " href="{% url 'auth_logout' %}">logout </a></li>
         {% endif %}
@@ -107,11 +108,11 @@
  <div class="row" >
   {% endif %}
   <div class="col-md-3">
-    <a  href="{%url 'book_details' book.id %}" >
+    <a class="add_to_cart" href="{%url 'book_details' book.id %}" >
     <div class="jumbotron">
   <h3>{{book.title}}</h3>
   <span>{{book.description}}</span>
-  <a href="{% url 'add_to_cart' book.id %}" class="btn btn-default">[Add to cart]</a>
+  <a  href="{% url 'add_to_cart' book.id %}" class="btn btn-default add_to_cart">[Add to cart]</a>
 </div>
 </a>
   </div>
@@ -132,6 +133,33 @@ $(document).ready(function(){
   $('#myInput').focus()
 })
 })
+ </script>
+       <script>
+        $(document).ready(function(){
+
+          
+            $('.add_to_cart').click(function(event){
+alert('hello');
+                event.preventDefault()
+                var linkTo = $(this).attr("href");
+                alert(linkTo);
+                $.ajax({
+                  url:linkTo,
+                  type:"POST",
+                  data: '{}',
+                  success:function(response){
+                    alert("no of items in cart now"+response);
+
+                  }
+                 
+
+
+                })
+
+            })
+
+        })
+
  </script>
 
 	</body>

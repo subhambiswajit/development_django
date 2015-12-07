@@ -75,7 +75,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_geoip.middleware.LocationMiddleware',
+   
 )
 
 ROOT_URLCONF = 'bookstore.urls'
@@ -140,9 +140,9 @@ EMPLATED_EMAIL_BACKEND = 'templated_email.backends.vanilla_django.TemplateBacken
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.mandrillapp.com'
+EMAIL_HOST = ''
 EMAIL_HOST_USER = 'digu35@gmail.com'
-EMAIL_HOST_PASSWORD = 'UIfzBCmedHs74_9RmqCQYg'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = "books@mymysterybook.com"
 

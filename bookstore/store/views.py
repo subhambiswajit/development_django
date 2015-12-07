@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Book, Review, Cart, BookOrder
 from django.contrib.auth.decorators import login_required
 import geoip2.database
+from django.http import HttpResponse
 
 
 def index(request):
@@ -28,7 +29,7 @@ def store(request):
 
 	# immediate response for geolocation
 	reader = geoip2.database.Reader('geoapp/GeoLite2-City.mmdb')
-	response = reader.city('110.33.122.75')
+	response = reader.city('122.172.69.71')
 	print response.country.iso_code
 	print response.city.name
 	print response.country.name
@@ -36,22 +37,6 @@ def store(request):
 	print response.location.latitude
 	print response.location.longitude
 	reader.close()
-
-	q =  get_client_ip(request)
-	
-	ip = "141.211.0.0"
-
-	ipgeobases = IPGeoBase.objects.by_ip (ip)
-	if ipgeobases.exists ():
-	    ipgeobase = ipgeobases [0]
-	    print ipgeobase.country # Country
-	    print ipgeobase.district # District (for the specified ip - Ural)
-	    print ipgeobase.region # Region (Sverdlovsk region)
-	    print ipgeobase.city # Settlement (Ekaterinburg)
-	    print ipgeobase.ip_block # IP-block, which were (212.49.98.0 - 212.49.98.255)
-	    print ipgeobase.start_ip, ipgeobase.end_ip # IP-block in a numeric format
-	    print ipgeobase.latitude, ipgeobase.longitude # latitude and longitude
-
 	return render(request,'base.html',{'store' : m ,'facebook_name': fb_name , 'head': head , 'book':book})
 
 @login_required
@@ -81,11 +66,13 @@ def add_to_cart(request, book_id):
 			cart = Cart.objects.get(user= request.user , active = True)
 			
 			
+			
 		except:
 				create_cart = Cart.objects.create(
 					user = request.user
 					)
 				create_cart.save()
+				cart = Cart.objects.get(user= request.user , active = True)
 		cart.add_to_cart(book_id)		
 	return redirect('cart')
 @login_required
@@ -109,6 +96,30 @@ def cart(request):
 		count += order.quantity
 		total += (order.book.price * order.quantity )
 	return render (request,'store/cart.html',{'cart': orders,'total':total ,'count':count})
+
+
+@login_required
+def navbar_cart (request,book_id):
+	if request.is_ajax():
+		try:
+			book = Book.objects.get(id= book_id)
+		except Book.DoesNotExist:
+			pass
+
+		else:
+			try:
+				cart = Cart.objects.get(user = request.user, active = True)
+				cart.add_to_cart(book_id)
+			except Cart.DoesNotExist :
+				new_cart = Cart.objects.create(
+					user = request.user,
+					active = True
+					)
+				new_cart.save()
+				cart.add_to_cart(book_id)
+		response = BookOrder.objects.all().count()
+		return HttpResponse(response)
+
 
 
 
