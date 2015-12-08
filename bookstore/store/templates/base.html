@@ -64,7 +64,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/accounts/login/">Home</a></li>
+        <li class="active"><a href="/store/">Home</a></li>
         
         <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
@@ -82,7 +82,7 @@
        {% endblock %}
         {% else %}
         <li><a href="#"><b>Hello </b> {{request.user.username}}</a></li>
-        <li> <b>Cart</b>
+       {%block cart_list %} <li><a href="{%url 'cart' %}" class="btn btn-default "> <b>Cart:</b><span id="cart_value">{{cart}} items</span></a> </li> {% endblock %}
         <li><a href="{%url 'cart' %}">My shopping cart</a> </li>
           <li ><a type="submit"  class="btn btn-default " href="{% url 'auth_logout' %}">logout </a></li>
         {% endif %}
@@ -112,7 +112,7 @@
     <div class="jumbotron">
   <h3>{{book.title}}</h3>
   <span>{{book.description}}</span>
-  <a  href="{% url 'add_to_cart' book.id %}" class="btn btn-default add_to_cart">[Add to cart]</a>
+  <a  href="{% url 'navbar_add' book.id %}" class="btn btn-default add_to_cart">[Add to cart]</a>
 </div>
 </a>
   </div>
@@ -139,16 +139,17 @@ $(document).ready(function(){
 
           
             $('.add_to_cart').click(function(event){
-alert('hello');
+                
                 event.preventDefault()
                 var linkTo = $(this).attr("href");
-                alert(linkTo);
                 $.ajax({
                   url:linkTo,
                   type:"POST",
                   data: '{}',
                   success:function(response){
-                    alert("no of items in cart now"+response);
+                    $('#cart_value').text(response+' items');
+
+                   
 
                   }
                  

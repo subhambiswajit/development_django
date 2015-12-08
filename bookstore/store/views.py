@@ -3,7 +3,7 @@ from .models import Book, Review, Cart, BookOrder
 from django.contrib.auth.decorators import login_required
 import geoip2.database
 from django.http import HttpResponse
-
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 def index(request):
 	return render(request,'base.html')
@@ -19,7 +19,8 @@ def get_client_ip(request):
 def store(request):
 	fb_name = ''
 	head = ''
-
+	
+	cart = Cart.objects.get(user = request.user, active = True)
 	m = Book.objects.all().count()
 	book = Book.objects.all()
 	
@@ -37,7 +38,8 @@ def store(request):
 	print response.location.latitude
 	print response.location.longitude
 	reader.close()
-	return render(request,'base.html',{'store' : m ,'facebook_name': fb_name , 'head': head , 'book':book})
+	cart = BookOrder.objects.filter(cart=cart, isused = 1).order_by('cart').count()
+	return render(request,'base.html',{'store' : m ,'facebook_name': fb_name , 'head': head , 'book':book, 'cart':cart})
 
 @login_required
 def book_details(request,detail_id):
@@ -89,17 +91,20 @@ def remove_from_cart (request, book_id):
 @login_required
 def cart(request):
 	cart = Cart.objects.get(user= request.user, active= True)
-	orders = BookOrder.objects.filter (cart = cart)
+	orders = BookOrder.objects.filter (cart = cart, isused= 1)
 	total = 0
 	count = 0
 	for order in orders:
 		count += order.quantity
 		total += (order.book.price * order.quantity )
+
 	return render (request,'store/cart.html',{'cart': orders,'total':total ,'count':count})
 
-
+@csrf_exempt
 @login_required
-def navbar_cart (request,book_id):
+def navbar_cart_add (request,book_id):
+	response = ''
+	print "hello"
 	if request.is_ajax():
 		try:
 			book = Book.objects.get(id= book_id)
@@ -117,10 +122,24 @@ def navbar_cart (request,book_id):
 					)
 				new_cart.save()
 				cart.add_to_cart(book_id)
-		response = BookOrder.objects.all().count()
-		return HttpResponse(response)
+		cart_count = BookOrder.objects.filter(cart=cart, isused = 1).order_by('cart').count()
+	return HttpResponse(cart_count)
 
 
+@csrf_exempt
+@login_required
+def navbar_cart_remove(request, book_id):
+	try:
+		book = Book.objects.get(id= book_id)
+	except:
+		pass
+
+	else:
+		cart = Cart.objects.get(user = request.user, active = True)
+		cart.remove_from_cart(book_id)
+
+		cart_count = BookOrder.objects.all().count()
+		return HttpResponse(cart_count)
 
 
 

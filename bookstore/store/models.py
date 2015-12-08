@@ -38,7 +38,7 @@ class Cart(models.Model):
 		book = Book.objects.get(id= book_id)
 		try:
 			
-			order_prexisting = BookOrder.objects.get(book = book, cart = self)
+			order_prexisting = BookOrder.objects.get(book = book, cart = self, isused=1)
 			order_prexisting.quantity += 1
 			order_prexisting.save()
 		except BookOrder.DoesNotExist:
@@ -51,9 +51,13 @@ class Cart(models.Model):
 	def remove_from_cart(self, book_id):
 		book = Book.objects.get(id = book_id)
 		try:
-			order_prexisting = BookOrder.objects.get(book=book, cart= self)
-			order_prexisting.quantity -= 1
-			order_prexisting.save()
+			order_prexisting = BookOrder.objects.get(book=book, cart= self, isused=1)
+			if order_prexisting.quantity > 1:
+				order_prexisting.quantity -= 1
+				order_prexisting.save()
+			else: 
+				order_prexisting.isused = 0
+				order_prexisting.save()
 		except BookOrder.DoesNotExist:
 			pass
 
@@ -62,6 +66,7 @@ class BookOrder(models.Model):
 	book = models.ForeignKey(Book)
 	cart = models.ForeignKey(Cart)
 	quantity = models.IntegerField()
+	isused = models.IntegerField(default=1)
 
 
 
